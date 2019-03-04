@@ -45,9 +45,6 @@ module.exports = class Installed extends React.Component {
         {plugins.map(plugin => <Plugin
           id={plugin.pluginID}
           installed={true}
-          enabled={powercord.pluginManager.isEnabled(plugin.pluginID)}
-          enforced={powercord.pluginManager.isEnforced(plugin.pluginID)}
-          hidden={powercord.settings.get('hiddenPlugins', []).includes(plugin.pluginID)}
           manifest={plugin.manifest}
 
           onEnable={() => this.enable(plugin.pluginID)}

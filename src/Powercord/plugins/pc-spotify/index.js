@@ -39,7 +39,6 @@ module.exports = class Spotify extends Plugin {
         'pc-spotify',
         'Spotify',
         () => React.createElement(Settings, {
-          settings: this.settings,
           patch: this._patchAutoPause.bind(this)
         })
       );
@@ -65,7 +64,6 @@ module.exports = class Spotify extends Plugin {
 
     getOwnerInstance(document.querySelector('.container-2Thooq:not([id])')).forceUpdate();
     powercord.off('webSocketMessage:dealer.spotify.com', this._handler);
-    powercord.pluginManager.get('pc-settings').unregister('pc-spotify');
     for (const [ commandName ] of Object.entries(commands)) {
       powercord
         .pluginManager

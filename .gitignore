@@ -12,3 +12,4 @@ src/Powercord/plugins/pc-styleManager/themes/*
 settings/*.json
 
 config.json
+src/__injected.txt

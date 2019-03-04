@@ -15,15 +15,6 @@ const isOverlay = (/overlay/).test(location.pathname);
 const Powercord = require('./Powercord');
 global.powercord = new Powercord();
 
-if (powercord.settings.get('openOverlayDevTools', false) && isOverlay) {
-  setTimeout(() => {
-    remote
-      .getCurrentWindow()
-      .openDevTools({
-        mode: 'detach'
-      });
-  }, 1500);
-}
 
 // https://github.com/electron/electron/issues/9047
 if (

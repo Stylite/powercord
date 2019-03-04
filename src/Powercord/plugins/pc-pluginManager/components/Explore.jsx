@@ -96,9 +96,6 @@ module.exports = class Explore extends React.Component {
       return;
     }
 
-    this.setState({ loading: true });
-    const baseUrl = powercord.settings.get('backendURL', 'https://powercord.xyz');
-    const plugins = await get(`${baseUrl}/api/plugins?page=${this.state.page}`).then(r => r.body);
 
     this.setState({
       loading: false,

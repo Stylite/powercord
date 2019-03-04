@@ -13,7 +13,7 @@ module.exports = class PluginManager {
     this.plugins = new Map();
 
     this.manifestKeys = [ 'name', 'version', 'description', 'author', 'license', 'repo' ];
-    this.enforcedPlugins = [ 'pc-styleManager', 'pc-settings', 'pc-pluginManager', 'pc-keybindManager' ];
+    this.enforcedPlugins = [ 'pc-styleManager', 'pc-pluginManager', 'pc-keybindManager' ];
   }
 
   // Getters
@@ -26,21 +26,10 @@ module.exports = class PluginManager {
     if (plugin) {
       return plugin.manifest.name;
     }
-    // API request
-    const baseUrl = powercord.settings.get('backendURL', 'https://powercord.xyz');
-    try {
-      return (await get(`${baseUrl}/api/plugins/${pluginID}`).then(r => r.body)).manifest.name || void 0;
-    } catch (e) {
-      return void 0;
     }
-  }
 
   getPlugins () {
-    return Array.from(this.plugins.keys()).filter(p => !powercord.settings.get('hiddenPlugins', []).includes(p));
-  }
-
-  getHiddenPlugins () {
-    return Array.from(this.plugins.keys()).filter(p => powercord.settings.get('hiddenPlugins', []).includes(p));
+    return Array.from(this.plugins.keys());
   }
 
   getAllPlugins () {
@@ -49,10 +38,6 @@ module.exports = class PluginManager {
 
   isInstalled (plugin) {
     return this.plugins.has(plugin);
-  }
-
-  isEnabled (plugin) {
-    return !powercord.settings.get('disabledPlugins', []).includes(plugin);
   }
 
   isEnforced (plugin, iterate = true) {
@@ -96,13 +81,6 @@ module.exports = class PluginManager {
     const plugin = this.get(pluginID);
     if (plugin) {
       return plugin.manifest.dependencies;
-    }
-
-    const baseUrl = powercord.settings.get('backendURL', 'https://powercord.xyz');
-    try {
-      return (await get(`${baseUrl}/api/plugins/${pluginID}`).then(r => r.body)).manifest.dependencies || [];
-    } catch (e) {
-      return [];
     }
   }
 
@@ -206,28 +184,10 @@ module.exports = class PluginManager {
     plugin._unload();
   }
 
-  show (plugin) {
-    powercord.settings.set(
-      'hiddenPlugins',
-      powercord.settings.get('hiddenPlugins', []).filter(p => p !== plugin)
-    );
-  }
-
-  hide (plugin) {
-    const disabled = powercord.settings.get('hiddenPlugins', []);
-    disabled.push(plugin);
-    powercord.settings.set('hiddenPlugins', disabled);
-  }
-
   enable (pluginID) {
     if (!this.get(pluginID)) {
       throw new Error(`Tried to unload a non installed plugin (${pluginID})`);
     }
-
-    powercord.settings.set(
-      'disabledPlugins',
-      powercord.settings.get('disabledPlugins', []).filter(p => p !== pluginID)
-    );
 
     this.load(pluginID);
   }
@@ -241,10 +201,6 @@ module.exports = class PluginManager {
     if (this.enforcedPlugins.includes(pluginID)) {
       throw new Error(`You cannot disable an enforced plugin. (Tried to disable ${pluginID})`);
     }
-    powercord.settings.set('disabledPlugins', [
-      ...powercord.settings.get('disabledPlugins', []),
-      pluginID
-    ]);
 
     this.unload(pluginID);
   }
@@ -272,9 +228,6 @@ module.exports = class PluginManager {
     const isOverlay = (/overlay/).test(location.pathname);
     readdirSync(this.pluginDir).forEach(filename => this.mount(filename));
     for (const plugin of [ ...this.plugins.values() ]) {
-      if (powercord.settings.get('disabledPlugins', []).includes(plugin.pluginID)) {
-        continue;
-      }
       if (
         (plugin.manifest.appMode === 'overlay' && isOverlay) ||
         (plugin.manifest.appMode === 'app' && !isOverlay) ||

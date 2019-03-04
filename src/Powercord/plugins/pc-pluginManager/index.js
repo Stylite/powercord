@@ -10,7 +10,7 @@ module.exports = class PluginManager extends Plugin {
     powercord
       .pluginManager
       .get('pc-settings')
-      .register('pc-pluginManager', 'Plugins', Settings);
+      .register('pc-pluginManager', 'Plugins');
   }
 
   unload () {
