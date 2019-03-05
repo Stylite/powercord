@@ -1,9 +1,8 @@
-# Powercord
-Powercord is a lightweight client mod focused on simplicity and performance.  
-As of right now, Powercord is in *very* early stages of development, so feel free to join [this server](https://discord.gg/5eSH46g) for any questions.
+# Powercord-lite
+Powercord-lite is a lightweight fork of [Powercord](https://github.com/powercord-org/powercord) with themes in mind. As of right now, Powercord-lite is in early stages of development, so feel free to join [this server](https://discord.gg/5eSH46g) for any questions.
 
 # Installation
-See the [installation page of the Powercord Wiki](https://github.com/powercord-org/powercord/wiki/Installation).
+See the [installation page of the Powercord-lite Wiki](https://github.com/Stylite/powercord-lite/wiki/Installation).
 
 # Is this against the ToS?
 Long story short... __yes__. Powercord is against the Discord Terms of Service — but, you should keep reading:  
